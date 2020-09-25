@@ -1,20 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-
-def find_cheese_links(soup):
-    # Find all of the "cheese items" on the page, which are cards that contain
-    # links to a particular type of cheese
-    cheese_items = soup.find_all('div', class_="cheese-item")
-
-    cheese_links = []
-    # Loop over all of the cheese items and return the page extensions
-    for cheese in cheese_items:
-        cheese_link = cheese.find('a')['href']
-        cheese_links.append(cheese_link)
-
-    return cheese_links
-
 def scrape_alphabet_page(letter = None):
 
 
@@ -43,3 +29,16 @@ def get_letters(soup):
         letters.append(letter['value'])
 
     return letters
+
+def find_cheese_links(soup):
+    # Find all of the "cheese items" on the page, which are cards that contain
+    # links to a particular type of cheese
+    cheese_items = soup.find_all('div', class_="cheese-item")
+
+    cheese_links = []
+    # Loop over all of the cheese items and return the page extensions
+    for cheese in cheese_items:
+        cheese_link = cheese.find('a')['href']
+        cheese_links.append(cheese_link)
+
+    return cheese_links
