@@ -1,8 +1,10 @@
 
 from helper import scrape_alphabet_page, find_cheese_links, get_letters
 
-a_soup = scrape_alphabet_page()
+alphabet_soup = scrape_alphabet_page()
+letters = get_letters(alphabet_soup)
 
-
-print(get_letters(a_soup))
-print(find_cheese_links(a_soup))
+for letter in letters:
+    letter_soup = scrape_alphabet_page(letter)
+    cheeses = find_cheese_links(letter_soup)
+    print(cheeses)
