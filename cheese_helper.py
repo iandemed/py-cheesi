@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from data_parser_helper import is_pasturized, strain_data_type
+from data_parser_helper import is_pasteurized, strain_milk_data
 
 def get_cheese_page(cheese):
     url = f'https://www.cheese.com{cheese}'
@@ -22,7 +22,19 @@ def create_cheese_dict(cheese_soup):
 
     for item in cheese_ul_items:
         cheese_item = item.p.extract()
-        print(strain_data_type(cheese_item))
+        cheese_string = cheese_item.get_text()
+
+        var_type = ""
+        # As of 09/2020 the type of milk used to make the cheese was not entered
+        # using the same format as the other relevant variables
+        if is_pasteurized(cheese_string):
+            var_type = "milk"
+            strain_milk_data(cheese_item, cheese_string)
+        else:
+            cheese_list = cheese_string.split(": ")
+            var_type = cheese_list[0].lower() if cheese_list[0].find("Country") == -1 else "countries"
+        
+        print(var_type)
 
 
 soup = get_cheese_page('/abbaye-de-belloc/')
