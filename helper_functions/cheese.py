@@ -15,12 +15,16 @@ def find_cheese_data(soup):
     cheese_soup = soup.find("ul", class_="summary-points")
     return cheese_soup
 
-
+def find_cheese_name(cheese_soup):
+    cheese_header = soup.find('div', class_="unit")
+    return cheese_header.h1.get_text().lower()
 
 def create_cheese_dict(cheese_soup):
     cheese_ul_items = cheese_soup.find_all('li')
 
     cheese_dict = {}
+    cheese_dict["name"] = find_cheese_name(cheese_soup)
+
     for item in cheese_ul_items:
         cheese_item = item.p.extract()
         cheese_string = cheese_item.get_text()
