@@ -1,10 +1,9 @@
 from peewee import PostgresqlDatabase, Model, CharField, ForeignKeyField, BooleanField
-from cheese import get_cheese_page, find_cheese_data, find_cheese_data, create_cheese_dict
+from cheese import get_cheese_page, find_cheese_data, find_cheese_data, create_cheese_dict, create_cheese_model
+from playhouse.shortcuts import dict_to_model
 
 db = PostgresqlDatabase('cheese', user='postgres', password='',
                         host='localhost', port=5432)
-
-db.connect()
 
 class BaseModel(Model):
     class Meta:
@@ -39,7 +38,14 @@ class Countries(Model):
     cheese_id = ForeignKeyField(Cheese)
     country = CharField()
 
+db.connect()
+db.drop_tables([Cheese])
+db.create_tables([Cheese])
+
 soup = get_cheese_page('/abbaye-de-belloc/')
 cheese_dict = create_cheese_dict(soup)
 
-print(cheese_dict)
+cheese_model_dict = create_cheese_model(cheese_dict)
+print(cheese_model_dict)
+new_cheese = dict_to_model(Cheese, cheese_model_dict)
+new_cheese.save()

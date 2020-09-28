@@ -42,10 +42,12 @@ def strain_data(cheese_string):
         cheese_data_list.remove('and')
     else:
         cheese_data_list = cheese_string.strip().split(', ')
+        if len(cheese_data_list) == 1:
+                cheese_data_list = ''.join(cheese_data_list)
 
-    if 'yes' in cheese_data_list and len(cheese_data_list) == 1:
+    if 'yes' in cheese_data_list:
         return True
-    elif 'no' in cheese_data_list and len(cheese_data_list) == 1:
+    elif 'no' in cheese_data_list:
         return False
     else:
         return cheese_data_list

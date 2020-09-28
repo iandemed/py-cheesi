@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 from data_parser import is_pasteurized, strain_milk_data, strain_data
+from playhouse.shortcuts import dict_to_model
+
 
 def get_cheese_page(cheese):
     url = f'https://www.cheese.com{cheese}'
@@ -49,7 +51,8 @@ def create_cheese_dict(soup):
     return cheese_dict
 
 
-soup = get_cheese_page('/abbaye-de-belloc/')
-cheese_dict = create_cheese_dict(soup)
+def create_cheese_model(cheese_dict):
+    keys = ['name', 'rind', 'colour', 'vegetarian']
+    cheese_model_dict = {x:cheese_dict[x] for x in keys}
 
-print(cheese_dict)
+    return cheese_model_dict
