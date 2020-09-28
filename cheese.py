@@ -15,15 +15,17 @@ def find_cheese_data(soup):
     cheese_soup = soup.find("ul", class_="summary-points")
     return cheese_soup
 
-def find_cheese_name(cheese_soup):
+def find_cheese_name(soup):
     cheese_header = soup.find('div', class_="unit")
     return cheese_header.h1.get_text().lower()
 
-def create_cheese_dict(cheese_soup):
+def create_cheese_dict(soup):
+    
+    cheese_soup = find_cheese_data(soup)
     cheese_ul_items = cheese_soup.find_all('li')
 
     cheese_dict = {}
-    cheese_dict["name"] = find_cheese_name(cheese_soup)
+    cheese_dict["name"] = find_cheese_name(soup)
 
     for item in cheese_ul_items:
         cheese_item = item.p.extract()
@@ -47,9 +49,7 @@ def create_cheese_dict(cheese_soup):
     return cheese_dict
 
 
-
 soup = get_cheese_page('/abbaye-de-belloc/')
-cheese_soup = find_cheese_data(soup)
-cheese_dict = create_cheese_dict(cheese_soup)
+cheese_dict = create_cheese_dict(soup)
 
 print(cheese_dict)

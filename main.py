@@ -1,5 +1,6 @@
 
-from dotcom_helper import scrape_alphabet_page, find_cheese_links, get_letters
+from helper_functions.dotcom import scrape_alphabet_page, find_cheese_links, get_letters
+from helper_functions.cheese import get_cheese_page, find_cheese_data, create_cheese_dict
 
 # Get a list of all of the alphabetic letters included in the cheese database
 alphabet_soup = scrape_alphabet_page()
