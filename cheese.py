@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from data_parser import is_pasteurized, strain_milk_data, strain_data
-from playhouse.shortcuts import dict_to_model
+
 
 
 def get_cheese_page(cheese):
@@ -37,7 +37,7 @@ def create_cheese_dict(soup):
         var_data = None
         # As of 09/2020 the type of milk used to make the cheese was not entered
         # using the same format as the other relevant variables
-        if is_pasteurized(cheese_string):
+        if is_pasteurized(cheese_string) or "milk" in cheese_string:
             var_type = "milk"
             var_data = strain_milk_data(cheese_item, cheese_string)
         else:
@@ -56,3 +56,12 @@ def create_cheese_model(cheese_dict):
     cheese_model_dict = {x:cheese_dict[x] for x in keys}
 
     return cheese_model_dict
+
+def create_milk_models(cheese_dict, cheese_id):
+    milk = cheese_dict['milk']
+
+    milk_dicts = []
+    for cheese_milk in milk:
+        milk_dicts.append({"cheese_id": cheese_id, "milk": cheese_milk})
+
+    return milk_dicts

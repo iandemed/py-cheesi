@@ -27,10 +27,14 @@ def strain_milk_data(cheese_item, cheese_string):
 
     milk_list = []
     milk_types = cheese_item.find_all('a')
-    pasteurization = "unpasteurized" if is_unpasteurized(cheese_string) else "pasteurized"
+    pasteurization = ""
+    if is_unpasteurized(cheese_string):
+        pasteurization = "unpasteurized " 
+    elif is_pasteurized(cheese_string):
+        pasteurization = "pasteurized "
 
     for milk_type in milk_types:
-        milk_list.append(pasteurization + " " + milk_type.get_text())
+        milk_list.append(pasteurization + milk_type.get_text())
 
     return milk_list
 
