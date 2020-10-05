@@ -1,8 +1,17 @@
+from flask import Flask, jsonify, request
 from peewee import PostgresqlDatabase, Model, CharField, ForeignKeyField, BooleanField
-from cheese import get_cheese_page, find_cheese_data, find_cheese_name, create_cheese_dict, create_cheese_model, create_milk_models
-from playhouse.shortcuts import dict_to_model
+from playhouse.shortcuts import dict_to_model, model_to_dict
 
-db = PostgresqlDatabase('cheese', user='postgres', password='',
+from website_scraper import scrape_alphabet_page, find_cheese_links, get_letters
+from cheese_strainer import get_cheese_page, find_cheese_data, create_cheese_dict, create_cheese_model, create_milk_models
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+PSQL_PASSWORD = os.getenv('PSQL_PASSWORD')
+
+db = PostgresqlDatabase('cheese', user='postgres', password=PSQL_PASSWORD,
                         host='localhost', port=5432)
 
 class BaseModel(Model):
@@ -43,15 +52,26 @@ db.drop_tables([Cheese, Milk])
 db.create_tables([Cheese, Milk])
 
 
-cheeses = ['/abbaye-de-belloc/', '/abbaye-de-belval/']
+# Get a list of all of the alphabetic letters included in the cheese database
+alphabet_soup = scrape_alphabet_page()
+letters = get_letters(alphabet_soup)
+
+# Creat a list containing every cheese in the cheese.com database
+cheese_links = []
+for letter in letters:
+    letter_soup = scrape_alphabet_page(letter)
+    cheeses = find_cheese_links(letter_soup)
+    cheese_links.extend(cheeses)
+
+
 cheese_id = 1
 
-for cheese in cheeses:
+for cheese in cheese_links:
+    print(cheese)
     soup = get_cheese_page(cheese)
     cheese_dict = create_cheese_dict(soup)
 
     cheese_model_dict = create_cheese_model(cheese_dict)
-    print(cheese_model_dict)
     new_cheese = dict_to_model(Cheese, cheese_model_dict)
     new_cheese.save()
 
@@ -61,3 +81,25 @@ for cheese in cheeses:
         new_milk.save()
     
     cheese_id += 1
+
+
+app = Flask(__name__)
+
+@app.route('/cheese/', methods=['GET', 'POST'])
+@app.route('/cheese/<id>', methods=['GET', 'PUT', 'DELETE'])
+def endpoint(id=None):
+  if request.method == 'GET':
+    if id:
+        return jsonify(model_to_dict(Cheese.get(Cheese.id == id)))
+    else:
+        cheese_list = []
+        for cheese in Cheese.select():
+            cheese_list.append(model_to_dict(cheese))
+        return jsonify(cheese_list)
+
+  if request.method == 'POST':
+    new_cheese = dict_to_model(Cheese, request.get_json())
+    new_cheese.save()
+    return jsonify({"success": True})
+
+app.run(debug=True, port=9000)

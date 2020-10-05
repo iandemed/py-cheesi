@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from data_parser import is_pasteurized, strain_milk_data, strain_data
+from data_strainer import is_pasteurized, strain_milk_data, strain_data
 
 
 
@@ -48,6 +48,15 @@ def create_cheese_dict(soup):
         
         cheese_dict[var_type] = var_data
     
+    if cheese_dict.get('rind') is None:
+        cheese_dict['rind'] = "none"
+    if cheese_dict.get('colour') is None:
+        cheese_dict['colour'] = "none"
+    if cheese_dict.get('vegetarian') is None:
+        cheese_dict['vegetarian'] = False
+    if cheese_dict.get('milk') is None:
+        cheese_dict['milk'] = "none"   
+
     return cheese_dict
 
 

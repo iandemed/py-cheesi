@@ -11,6 +11,8 @@ peewee = "*"
 psycopg2-binary = "*"
 requests = "*"
 beautifulsoup4 = "*"
+python-dotenv = "*"
+flask = "*"
 
 [requires]
 python_version = "3.8"
