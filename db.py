@@ -88,6 +88,7 @@ app = Flask(__name__)
 @app.route('/cheese/', methods=['GET', 'POST'])
 @app.route('/cheese/<id>', methods=['GET', 'PUT', 'DELETE'])
 def endpoint(id=None):
+  print(request)
   if request.method == 'GET':
     if id:
         return jsonify(model_to_dict(Cheese.get(Cheese.id == id)))
@@ -101,5 +102,7 @@ def endpoint(id=None):
     new_cheese = dict_to_model(Cheese, request.get_json())
     new_cheese.save()
     return jsonify({"success": True})
+
+
 
 app.run(debug=True, port=9000)
