@@ -20,7 +20,7 @@ def is_unpasteurized(str_item):
 # The milk data has two things that we are interested in:
 #   1. the pasteurization
 #   2. the type of milk
-# we need to parse through and extract 2. from a tags and make sure 1. is included in the 
+# we need to parse through and extract 2. from anchor tags and make sure 1. is included in the 
 # returned data
 
 def strain_milk_data(cheese_item, cheese_string):
@@ -38,7 +38,7 @@ def strain_milk_data(cheese_item, cheese_string):
 
     return milk_list
 
-
+# General purpose function to parse a variety of columns
 def strain_data(cheese_string):
 
     if ' and ' in cheese_string:

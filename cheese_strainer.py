@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from data_strainer import is_pasteurized, strain_milk_data, strain_data
 
 
-
+# Get the HTML from each individuals webpage
 def get_cheese_page(cheese):
     url = f'https://www.cheese.com{cheese}'
     page = requests.get(url)
@@ -48,6 +48,7 @@ def create_cheese_dict(soup):
         
         cheese_dict[var_type] = var_data
     
+    # Control structure to deal with "missing" data
     if cheese_dict.get('rind') is None:
         cheese_dict['rind'] = "none"
     if cheese_dict.get('colour') is None:
@@ -60,12 +61,14 @@ def create_cheese_dict(soup):
     return cheese_dict
 
 
+# Create the cheese model from cheese dictionary
 def create_cheese_model(cheese_dict):
     keys = ['name', 'rind', 'colour', 'vegetarian']
     cheese_model_dict = {x:cheese_dict[x] for x in keys}
 
     return cheese_model_dict
 
+# Create milk model from cheese id and cheese dictionaries
 def create_milk_models(cheese_dict, cheese_id):
     milk = cheese_dict['milk']
 

@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+# Get the HTML for the corresponding letter
 def scrape_alphabet_page(letter = None):
 
 

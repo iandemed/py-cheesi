@@ -2,6 +2,8 @@ from flask import Flask, jsonify, request
 from peewee import PostgresqlDatabase, Model, CharField, ForeignKeyField, BooleanField
 from playhouse.shortcuts import dict_to_model, model_to_dict
 
+# Import functions necessary to parse through cheese.com's website and parse
+# through all of the data gathered
 from website_scraper import scrape_alphabet_page, find_cheese_links, get_letters
 from cheese_strainer import get_cheese_page, find_cheese_data, create_cheese_dict, create_cheese_model, create_milk_models
 
@@ -18,6 +20,7 @@ class BaseModel(Model):
     class Meta:
         database=db
 
+# Singular characteristics for each unique cheese
 class Cheese(BaseModel):
     name = CharField()
     rind = CharField()
