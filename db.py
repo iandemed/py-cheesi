@@ -5,7 +5,9 @@ from playhouse.shortcuts import dict_to_model, model_to_dict
 # Import functions necessary to parse through cheese.com's website and parse
 # through all of the data gathered
 from website_scraper import scrape_alphabet_page, find_cheese_links, get_letters
-from cheese_strainer import get_cheese_page, find_cheese_data, create_cheese_dict, create_cheese_model, create_milk_models
+from cheese_model_helpers import get_cheese_page, find_cheese_data, 
+                            create_cheese_dict, create_cheese_model, 
+                            create_milk_models
 
 import os
 from dotenv import load_dotenv
@@ -28,9 +30,8 @@ class Cheese(BaseModel):
     vegetarian = BooleanField()
 
 
-# These are characteristics of the cheeses that would
-# normally be stored in a list. A cheese can have more
-# than one of each of these properties
+# These are characteristics of the cheeses that would normally be stored in a 
+# list. A cheese can have more than one of each of these properties
 class Flavour(BaseModel):
     cheese_id = ForeignKeyField(Cheese)
     flavour = CharField()

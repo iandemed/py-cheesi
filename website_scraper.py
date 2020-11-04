@@ -18,8 +18,8 @@ def scrape_alphabet_page(letter = None):
 
     return soup
 
-# Return a list of letters that a the name of a particular cheese
-# included on cheese.com would include
+# Return a list of letters that a the name of a particular cheese included on 
+# cheese.com would include
 def get_letters(soup):
     alphabet_box = soup.find(id="alphabetical")
 
@@ -31,6 +31,7 @@ def get_letters(soup):
 
     return letters
 
+# Return a list of all of the links for each type of cheese
 def find_cheese_links(soup):
     # Find all of the "cheese items" on the page, which are cards that contain
     # links to a particular type of cheese

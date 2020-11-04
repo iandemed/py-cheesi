@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from data_strainer import is_pasteurized, strain_milk_data, strain_data
+from data_parser_helpers import is_pasteurized, strain_milk_data, strain_data
 
 
 # Get the HTML from each individuals webpage
@@ -13,6 +13,8 @@ def get_cheese_page(cheese):
 
     return soup
 
+
+# Functions to parse data on the cheese specific webpage
 def find_cheese_data(soup):
     cheese_soup = soup.find("ul", class_="summary-points")
     return cheese_soup
@@ -20,6 +22,7 @@ def find_cheese_data(soup):
 def find_cheese_name(soup):
     cheese_header = soup.find('div', class_="unit")
     return cheese_header.h1.get_text().lower()
+
 
 def create_cheese_dict(soup):
     
@@ -33,8 +36,10 @@ def create_cheese_dict(soup):
         cheese_item = item.p.extract()
         cheese_string = cheese_item.get_text()
 
+        # Initialize var_type and var_data variables
         var_type = ""
         var_data = None
+
         # As of 09/2020 the type of milk used to make the cheese was not entered
         # using the same format as the other relevant variables
         if is_pasteurized(cheese_string) or "milk" in cheese_string:
