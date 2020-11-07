@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from data_parser_helpers import is_pasteurized, strain_milk_data, strain_data
+from data_parser_helpers import is_pasteurized, prepare_milk_data, prepare_data, handle_none, table_vars_to_array, handle_missing_variables
 
 
 # Get the HTML from each individuals webpage
@@ -19,13 +19,14 @@ def find_cheese_data(soup):
     cheese_soup = soup.find("ul", class_="summary-points")
     return cheese_soup
 
+
 def find_cheese_name(soup):
     cheese_header = soup.find('div', class_="unit")
     return cheese_header.h1.get_text().lower()
 
 
 def create_cheese_dict(soup):
-    
+
     cheese_soup = find_cheese_data(soup)
     cheese_ul_items = cheese_soup.find_all('li')
 
@@ -43,37 +44,26 @@ def create_cheese_dict(soup):
         # As of 09/2020 the type of milk used to make the cheese was not entered
         # using the same format as the other relevant variables
         if is_pasteurized(cheese_string) or "milk" in cheese_string:
-            var_type = "milk"
-            var_data = strain_milk_data(cheese_item, cheese_string)
+            cheese_dict["milk"] = prepare_milk_data(cheese_item, cheese_string)
         else:
             cheese_list = cheese_string.split(": ")
-            var_type = cheese_list[0].lower() if cheese_list[0].find("Country") == -1 else "countries"
+            var_type = cheese_list[0].lower() if cheese_list[0].find(
+                "Country") == -1 else "countries"
 
-            var_data = strain_data(cheese_list[1])
-        
-        cheese_dict[var_type] = var_data
-    
-    # Control structure to deal with "missing" data
-    if cheese_dict.get('rind') is None:
-        cheese_dict['rind'] = "none"
-    if cheese_dict.get('colour') is None:
-        cheese_dict['colour'] = "none"
-    if cheese_dict.get('vegetarian') is None:
-        cheese_dict['vegetarian'] = False
-    if cheese_dict.get('milk') is None:
-        cheese_dict['milk'] = "none"   
+            cheese_dict[var_type] = table_vars_to_array(
+                var_type, prepare_data(cheese_list[1]))
 
-    return cheese_dict
+    return handle_missing_variables(cheese_dict)
 
 
 # Create the cheese model from cheese dictionary
 def create_cheese_model(cheese_dict):
     keys = ['name', 'rind', 'colour', 'vegetarian']
-    cheese_model_dict = {x:cheese_dict[x] for x in keys}
+    cheese_model_dict = {x: cheese_dict[x] for x in keys}
 
     return cheese_model_dict
 
-# Create milk model from cheese id and cheese dictionaries
+
 def create_milk_models(cheese_dict, cheese_id):
     milk = cheese_dict['milk']
 
@@ -82,3 +72,14 @@ def create_milk_models(cheese_dict, cheese_id):
         milk_dicts.append({"cheese_id": cheese_id, "milk": cheese_milk})
 
     return milk_dicts
+
+
+def create_texture_models(cheese_dict, cheese_id):
+    textures = cheese_dict['texture']
+
+    texture_dicts = []
+    for cheese_texture in textures:
+        texture_dicts.append(
+            {"cheese_id": cheese_id, "texture": cheese_texture})
+
+    return texture_dicts
