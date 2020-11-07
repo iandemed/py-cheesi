@@ -13,6 +13,11 @@ requests = "*"
 beautifulsoup4 = "*"
 python-dotenv = "*"
 flask = "*"
+gunicorn = "*"
+sqlalchemy = "*"
+alembic = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
 
 [requires]
 python_version = "3.8"
