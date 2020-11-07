@@ -16,11 +16,14 @@ PSQL_PASSWORD = os.getenv('PSQL_PASSWORD')
 db = PostgresqlDatabase('cheese', user='postgres', password=PSQL_PASSWORD,
                         host='localhost', port=5432)
 
+
 class BaseModel(Model):
     class Meta:
-        database=db
+        database = db
 
 # Singular characteristics for each unique cheese
+
+
 class Cheese(BaseModel):
     name = CharField()
     rind = CharField()
@@ -28,26 +31,37 @@ class Cheese(BaseModel):
     vegetarian = BooleanField()
 
 
-# These are characteristics of the cheeses that would normally be stored in a 
+# These are characteristics of the cheeses that would normally be stored in a
 # list. A cheese can have more than one of each of these properties
 class Flavour(BaseModel):
     cheese_id = ForeignKeyField(Cheese, on_delete='CASCADE')
     flavour = CharField()
+
+
 class Texture(BaseModel):
     cheese_id = ForeignKeyField(Cheese, on_delete='CASCADE')
     texture = CharField()
+
+
 class Type(BaseModel):
     cheese_id = ForeignKeyField(Cheese, on_delete='CASCADE')
     cheese_type = CharField()
+
+
 class Milk(BaseModel):
     cheese_id = ForeignKeyField(Cheese, on_delete='CASCADE')
     milk = CharField()
+
+
 class Aroma(BaseModel):
     cheese_id = ForeignKeyField(Cheese, on_delete='CASCADE')
     aroma = CharField()
+
+
 class Countries(Model):
     cheese_id = ForeignKeyField(Cheese, on_delete='CASCADE')
     country = CharField()
+
 
 db.connect()
 db.drop_tables([Cheese, Milk, Texture])
@@ -93,24 +107,24 @@ for cheese in cheese_links:
 
 app = Flask(__name__)
 
+
 @app.route('/cheese/', methods=['GET', 'POST'])
 @app.route('/cheese/<id>', methods=['GET', 'PUT', 'DELETE'])
 def endpoint(id=None):
-  print(request)
-  if request.method == 'GET':
-    if id:
-        return jsonify(model_to_dict(Cheese.get(Cheese.id == id)))
-    else:
-        cheese_list = []
-        for cheese in Cheese.select():
-            cheese_list.append(model_to_dict(cheese))
-        return jsonify(cheese_list)
+    print(request)
+    if request.method == 'GET':
+        if id:
+            return jsonify(model_to_dict(Cheese.get(Cheese.id == id)))
+        else:
+            cheese_list = []
+            for cheese in Cheese.select():
+                cheese_list.append(model_to_dict(cheese))
+            return jsonify(cheese_list)
 
-  if request.method == 'POST':
-    new_cheese = dict_to_model(Cheese, request.get_json())
-    new_cheese.save()
-    return jsonify({"success": True})
-
+    if request.method == 'POST':
+        new_cheese = dict_to_model(Cheese, request.get_json())
+        new_cheese.save()
+        return jsonify({"success": True})
 
 
 app.run(debug=True, port=9000)
