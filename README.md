@@ -8,18 +8,21 @@ There are a lot of open-source APIs on wine, but I noticed that there were no AP
 
 ## Table of Contents
 
-- [py-cheesi](#py-cheesi)
-  - [Techincal Requirements](#techincal-requirements)
-    - [Technologies Used](#technologies-used)
-    - [Dependencies](#dependencies)
-    - [Authentication](#authentication)
-  - [Resource List](#resource-list)
-    - [Cheese](#cheese)
-      - [GET /cheese/{\_id}](#get--cheese---id-)
-      - [cheese](#cheese-1)
-    - [Milk](#milk)
-      - [Milk](#milk-1)
-  - [Additional Notes](#additional-notes)
+- [Techincal Requirements](#techincal-requirements)
+  - [Technologies Used](#technologies-used)
+  - [Dependencies](#dependencies)
+  - [Authentication](#authentication)
+- [Resource List](#resource-list)
+  - [Cheese](#cheese)
+    - [Cheese](#cheese-1)
+    - [GET by ID](#get-by-id)
+  - [Milk](#milk)
+    - [Milk](#milk-1)
+  - [Texture](#texture)
+    - [Texture](#texture-1)
+    - [GET by ID](#get-by-id)
+- [Additional Notes](#additional-notes)
+  - [Future Expansions](#future-expansions)
 
 ## Techincal Requirements
 
@@ -58,7 +61,16 @@ The root directory for each collection (`/president` and `/firstSpouse` respecti
 
 ### Cheese
 
-#### GET /cheese/{\_id}
+#### Cheese
+
+| **Variable** | **Type**    | **Description**                                                                         |
+| ------------ | ----------- | --------------------------------------------------------------------------------------- |
+| `id`         | Primary Key | Key to the Milk collection, corresponds to the alphanumeric order of all of the cheeses |
+| `rind`       | String      | type of rind (or casing) of the cheese                                                  |
+| `colour`     | String      | Array of references to the president's previous partners                                |
+| `vegetarian` | String      | Whether the cheese is vegetarian or not (the default is True)                           |
+
+#### GET by ID
 
 ```JSON
 {
@@ -70,15 +82,6 @@ The root directory for each collection (`/president` and `/firstSpouse` respecti
 }
 ```
 
-#### Cheese
-
-| **Variable** | **Type**    | **Description**                                                                         |
-| ------------ | ----------- | --------------------------------------------------------------------------------------- |
-| `id`         | Primary Key | Key to the Milk collection, corresponds to the alphanumeric order of all of the cheeses |
-| `rind`       | String      | type of rind (or casing) of the cheese                                                  |
-| `colour`     | String      | Array of references to the president's previous partners                                |
-| `vegetarian` | String      | Whether the cheese is vegetarian or not (the default is True)                           |
-
 ### Milk
 
 #### Milk
@@ -88,6 +91,32 @@ The root directory for each collection (`/president` and `/firstSpouse` respecti
 | `id`         | Primary Key | Key to the Milk collection, corresponds to the first time each milk is listed |
 | `cheese_id`  | Foreign Key | Foreign Key to the Cheese table                                               |
 | `milk`       | String      | The type of milk used to create each cheese                                   |
+
+### Texture
+
+#### Texture
+
+| **Variable** | **Type**    | **Description**                                                                     |
+| ------------ | ----------- | ----------------------------------------------------------------------------------- |
+| `id`         | Primary Key | Key to the Texture collection, corresponds to the first time each texture is listed |
+| `cheese_id`  | Foreign Key | Foreign Key to the Cheese table                                                     |
+| `texture`    | String      | The type of texture used to create each cheese                                      |
+
+#### GET by ID
+
+```JSON
+ {
+        "cheese_id": {
+            "colour": "yellow",
+            "id": 1,
+            "name": "abbaye de belloc ",
+            "rind": "natural",
+            "vegetarian": true
+        },
+        "id": 1,
+        "texture": "creamy"
+    }
+```
 
 ## Additional Notes
 
