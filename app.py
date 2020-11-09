@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+db = SQLAlchemy(app)
+
 
 @app.route('/cheese', methods=['GET', 'POST'])
 @app.route('/cheese/<id>', methods=['GET', 'PUT', 'DELETE'])
