@@ -4,8 +4,8 @@ from playhouse.shortcuts import dict_to_model, model_to_dict
 
 # Import functions necessary to parse through cheese.com's website and parse
 # through all of the data gathered
-from website_scraper import scrape_alphabet_page, find_cheese_links, get_letters
-from cheese_model_helpers import get_cheese_page, find_cheese_data, create_cheese_dict, create_cheese_model, create_milk_models, create_texture_models
+# from website_scraper import scrape_alphabet_page, find_cheese_links, get_letters
+#from cheese_model_helpers import get_cheese_page, find_cheese_data, create_cheese_dict, create_cheese_model, create_milk_models, create_texture_models
 
 import os
 from dotenv import load_dotenv
@@ -62,7 +62,7 @@ class Countries(Model):
     cheese_id = ForeignKeyField(Cheese, on_delete='CASCADE')
     country = CharField()
 
-
+'''
 db.connect()
 db.drop_tables([Cheese, Milk, Texture])
 db.create_tables([Cheese, Milk, Texture])
@@ -103,3 +103,4 @@ for cheese in cheese_links:
         new_texture.save()
 
     cheese_id += 1
+'''

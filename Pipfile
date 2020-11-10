@@ -18,6 +18,7 @@ sqlalchemy = "*"
 alembic = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
+flask-script = "*"
 
 [requires]
 python_version = "3.8"
