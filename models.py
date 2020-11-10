@@ -1,12 +1,6 @@
-from app import db
-from sqlalchemy.dialects.postgresql import JSON
+from flask_sqlalchemy import SQLAlchemy
 
-
-class CharacteristicMixin(object):
-    id = db.Column(db.Integer, primary_key=True)
-    cheese_id = db.Column('cheese_id', db.Integer,
-                          db.ForeignKey(cheese_id), nullable=False)
-
+db = SQLAlchemy()
 
 class Cheese(db.Model):
     __tablename__ = 'cheese'
@@ -15,6 +9,11 @@ class Cheese(db.Model):
     rind = db.Column(db.String(80), nullable=False)
     colour = db.Column(db.String(80), nullable=False)
     vegetarian = db.Column(db.Boolean, default=False, nullable=False)
+    textures = db.relationship('Texture')
+    types = db.relationship('Type')
+    milk = db.relationship('Milk')
+    aromas = db.relationship('Aroma')
+    countries = db.relationship('Country')
 
     def __init__(self, rind, colour, vegetarian):
         self.rind = rind
@@ -22,9 +21,12 @@ class Cheese(db.Model):
         self.vegetarian = vegetarian
 
 
-class Texture(CharacteristicMixin, db.Model):
+class Texture(db.Model):
     __tablename__ = 'texture'
 
+    id = db.Column(db.Integer, primary_key=True)
+    cheese_id = db.Column('cheese_id', db.Integer,
+                          db.ForeignKey('cheese.id'), nullable=False)
     texture = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, texture):
@@ -32,9 +34,12 @@ class Texture(CharacteristicMixin, db.Model):
         self.texture = texture
 
 
-class Type(CharacteristicMixin, db.Model):
+class Type(db.Model):
     __tablename__ = 'type'
 
+    id = db.Column(db.Integer, primary_key=True)
+    cheese_id = db.Column('cheese_id', db.Integer,
+                          db.ForeignKey('cheese.id'), nullable=False)
     type = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, type):
@@ -42,9 +47,12 @@ class Type(CharacteristicMixin, db.Model):
         self.type = type
 
 
-class Milk(CharacteristicMixin, db.Model):
+class Milk(db.Model):
     __tablename__ = 'milk'
 
+    id = db.Column(db.Integer, primary_key=True)
+    cheese_id = db.Column('cheese_id', db.Integer,
+                          db.ForeignKey('cheese.id'), nullable=False)
     milk = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, milk):
@@ -52,9 +60,12 @@ class Milk(CharacteristicMixin, db.Model):
         self.milk = milk
 
 
-class Aroma(CharacteristicMixin, db.Model):
+class Aroma(db.Model):
     __tablename__ = 'aroma'
 
+    id = db.Column(db.Integer, primary_key=True)
+    cheese_id = db.Column('cheese_id', db.Integer,
+                          db.ForeignKey('cheese.id'), nullable=False)
     aroma = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, aroma):
@@ -62,11 +73,14 @@ class Aroma(CharacteristicMixin, db.Model):
         self.aroma = aroma
 
 
-class Country(CharacteristicMixin, db.Model):
+class Country(db.Model):
     __tablename__ = 'country'
 
     country = db.Column(db.String(80), nullable=False)
 
+    id = db.Column(db.Integer, primary_key=True)
+    cheese_id = db.Column('cheese_id', db.Integer,
+                          db.ForeignKey('cheese.id'), nullable=False)
     def __init__(self, cheese_id, country):
         self.cheese_id = cheese_id
         self.country = country

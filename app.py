@@ -1,11 +1,24 @@
+import os
+from dotenv import load_dotenv
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from models import db
 
 app = Flask(__name__)
+app.config.from_object(os.getenv('APP_SETTINGS'))
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db.init_app(app)
 
+@app.route('/')
+def hello():
+    return "Hello World!"
 
+if __name__ == '__main__':
+    app.run()
+
+'''
 @app.route('/cheese', methods=['GET', 'POST'])
 @app.route('/cheese/<id>', methods=['GET', 'PUT', 'DELETE'])
 def cheeses(id=None):
@@ -42,6 +55,5 @@ def textures(id=None):
         new_texture = dict_to_model(Texture, request.get_json())
         new_texture.save()
         return jsonify({"success": True})
+'''
 
-
-app.run(debug=True, port=9000)
