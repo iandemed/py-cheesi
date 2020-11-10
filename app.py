@@ -5,10 +5,16 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from models import db
 
-app = Flask(__name__)
-app.config.from_object(os.getenv('APP_SETTINGS'))
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# App instances within modules are prone to circular error issues, per 
+# Flask-SQLAlchemy doucmentation, I implment application contexts
+def create_app():
+    app = Flask(__name__)
+    app = Flask(__name__)
+    app.config.from_object(os.getenv('APP_SETTINGS'))
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
+    return app
 
+app = create_app()
 db.init_app(app)
 
 @app.route('/')
