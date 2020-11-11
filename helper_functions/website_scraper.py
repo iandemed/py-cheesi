@@ -18,6 +18,16 @@ def scrape_alphabet_page(letter = None):
 
     return soup
 
+# Get the HTML from each individuals webpage
+def get_cheese_page(cheese):
+    url = f'https://www.cheese.com{cheese}'
+    page = requests.get(url)
+
+    # Get the raw HTML of the web page
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    return soup
+
 # Return a list of letters that a the name of a particular cheese included on 
 # cheese.com would include
 def get_letters(soup):
@@ -44,3 +54,13 @@ def find_cheese_links(soup):
         cheese_links.append(cheese_link)
 
     return cheese_links
+
+# Functions to parse data on the cheese specific webpage
+def find_cheese_data(soup):
+    cheese_soup = soup.find("ul", class_="summary-points")
+    return cheese_soup
+
+
+def find_cheese_name(soup):
+    cheese_header = soup.find('div', class_="unit")
+    return cheese_header.h1.get_text().lower()

@@ -4,8 +4,8 @@ from playhouse.shortcuts import dict_to_model, model_to_dict
 
 # Import functions necessary to parse through cheese.com's website and parse
 # through all of the data gathered
-from website_scraper import scrape_alphabet_page, find_cheese_links, get_letters
-from cheese_model_helpers import get_cheese_page, find_cheese_data, create_cheese_dict, create_cheese_model, create_milk_models, create_texture_models
+# from website_scraper import scrape_alphabet_page, find_cheese_links, get_letters
+#from cheese_model_helpers import get_cheese_page, find_cheese_data, create_cheese_dict, create_cheese_model, create_milk_models, create_texture_models
 
 import os
 from dotenv import load_dotenv
@@ -62,7 +62,7 @@ class Countries(Model):
     cheese_id = ForeignKeyField(Cheese, on_delete='CASCADE')
     country = CharField()
 
-
+'''
 db.connect()
 db.drop_tables([Cheese, Milk, Texture])
 db.create_tables([Cheese, Milk, Texture])
@@ -103,47 +103,4 @@ for cheese in cheese_links:
         new_texture.save()
 
     cheese_id += 1
-
-
-app = Flask(__name__)
-
-
-@app.route('/cheese', methods=['GET', 'POST'])
-@app.route('/cheese/<id>', methods=['GET', 'PUT', 'DELETE'])
-def cheeses(id=None):
-    print(request)
-    if request.method == 'GET':
-        if id:
-            return jsonify(model_to_dict(Cheese.get(Cheese.id == id)))
-        else:
-            cheese_list = []
-            for cheese in Cheese.select():
-                cheese_list.append(model_to_dict(cheese))
-            return jsonify(cheese_list)
-
-    if request.method == 'POST':
-        new_cheese = dict_to_model(Cheese, request.get_json())
-        new_cheese.save()
-        return jsonify({"success": True})
-
-
-@app.route('/texture', methods=['GET', 'POST'])
-@app.route('/texture/<id>', methods=['GET', 'PUT', 'DELETE'])
-def textures(id=None):
-    print(request)
-    if request.method == 'GET':
-        if id:
-            return jsonify(model_to_dict(Texture.get(Texture.id == id)))
-        else:
-            texture_list = []
-            for texture in Texture.select():
-                texture_list.append(model_to_dict(texture))
-            return jsonify(texture_list)
-
-    if request.method == 'POST':
-        new_texture = dict_to_model(Texture, request.get_json())
-        new_texture.save()
-        return jsonify({"success": True})
-
-
-app.run(debug=True, port=9000)
+'''

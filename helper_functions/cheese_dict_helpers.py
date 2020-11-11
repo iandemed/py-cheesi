@@ -1,29 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
-from data_parser_helpers import is_pasteurized, prepare_milk_data, prepare_data, handle_none, table_vars_to_array, handle_missing_variables
-
-
-# Get the HTML from each individuals webpage
-def get_cheese_page(cheese):
-    url = f'https://www.cheese.com{cheese}'
-    page = requests.get(url)
-
-    # Get the raw HTML of the web page
-    soup = BeautifulSoup(page.content, 'html.parser')
-
-    return soup
-
-
-# Functions to parse data on the cheese specific webpage
-def find_cheese_data(soup):
-    cheese_soup = soup.find("ul", class_="summary-points")
-    return cheese_soup
-
-
-def find_cheese_name(soup):
-    cheese_header = soup.find('div', class_="unit")
-    return cheese_header.h1.get_text().lower()
-
+from helper_functions.data_parser_helpers import is_pasteurized, prepare_milk_data, prepare_data, handle_none, table_vars_to_array, handle_missing_variables
+from helper_functions.website_scraper import find_cheese_data, find_cheese_name
 
 def create_cheese_dict(soup):
 
@@ -57,14 +35,14 @@ def create_cheese_dict(soup):
 
 
 # Create the cheese model from cheese dictionary
-def create_cheese_model(cheese_dict):
+def create_cheese_model_dict(cheese_dict):
     keys = ['name', 'rind', 'colour', 'vegetarian']
     cheese_model_dict = {x: cheese_dict[x] for x in keys}
 
     return cheese_model_dict
 
 
-def create_milk_models(cheese_dict, cheese_id):
+def create_milk_model_dicts(cheese_dict, cheese_id):
     milk = cheese_dict['milk']
 
     milk_dicts = []
@@ -74,7 +52,7 @@ def create_milk_models(cheese_dict, cheese_id):
     return milk_dicts
 
 
-def create_texture_models(cheese_dict, cheese_id):
+def create_texture_model_dicts(cheese_dict, cheese_id):
     textures = cheese_dict['texture']
 
     texture_dicts = []

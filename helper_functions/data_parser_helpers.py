@@ -91,6 +91,6 @@ def handle_missing_variables(cheese_dict):
 
     for cheese_var in cheese_vars:
         if cheese_dict.get(cheese_var) is None:
-            cheese_dict[cheese_var] = table_vars_to_array(cheese_var, "none")
+            cheese_dict[cheese_var] = table_vars_to_array(cheese_var, handle_none(cheese_var))
 
     return cheese_dict

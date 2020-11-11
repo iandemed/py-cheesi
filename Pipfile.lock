@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3134c69fb668705e5626961ac6d5b56685cf28dc4f76c9f2885169acdbfcc7b0"
+            "sha256": "26a285bca4ce6d1ed973f633a06ec534102ecb489afd83a4fa5a29487b4567ca"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -35,10 +35,10 @@
         },
         "certifi": {
             "hashes": [
-                "sha256:5930595817496dd21bb8dc35dad090f1c2cd0adfaf21204bf6732ca5d8ee34d3",
-                "sha256:8fc0819f1f30ba15bdb34cceffb9ef04d99f420f68eb75d901e9560b8749fc41"
+                "sha256:1f422849db327d534e3d0c5f02a263458c3955ec0aae4ff09b95f195c59f4edd",
+                "sha256:f05def092c44fbf25834a51509ef6e631dc19765ab8a57b4e7ab85531f0a9cf4"
             ],
-            "version": "==2020.6.20"
+            "version": "==2020.11.8"
         },
         "chardet": {
             "hashes": [
@@ -70,6 +70,13 @@
             ],
             "index": "pypi",
             "version": "==2.5.3"
+        },
+        "flask-script": {
+            "hashes": [
+                "sha256:6425963d91054cfcc185807141c7314a9c5ad46325911bd24dcb489bd0161c65"
+            ],
+            "index": "pypi",
+            "version": "==2.0.6"
         },
         "flask-sqlalchemy": {
             "hashes": [
@@ -160,10 +167,10 @@
         },
         "peewee": {
             "hashes": [
-                "sha256:1269a9736865512bd4056298003aab190957afe07d2616cf22eaf56cb6398369"
+                "sha256:59c5ef43877029b9133d87001dcc425525de231d1f983cece8828197fb4b84fa"
             ],
             "index": "pypi",
-            "version": "==3.13.3"
+            "version": "==3.14.0"
         },
         "psycopg2-binary": {
             "hashes": [
@@ -325,14 +332,6 @@
             ],
             "markers": "python_version >= '3.5'",
             "version": "==2.4.2"
-        },
-        "colorama": {
-            "hashes": [
-                "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b",
-                "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"
-            ],
-            "markers": "sys_platform == 'win32'",
-            "version": "==0.4.4"
         },
         "isort": {
             "hashes": [
