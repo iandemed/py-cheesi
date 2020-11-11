@@ -7,6 +7,7 @@ class Cheese(db.Model):
     __tablename__ = 'cheese'
 
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
     rind = db.Column(db.String(80), nullable=False)
     colour = db.Column(db.String(80), nullable=False)
     vegetarian = db.Column(db.Boolean, default=False, nullable=False)
