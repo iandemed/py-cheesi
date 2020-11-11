@@ -26,7 +26,7 @@ class Texture(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     cheese_id = db.Column('cheese_id', db.Integer,
-                          db.ForeignKey('cheese.id'), nullable=False)
+                          db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     texture = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, texture):
@@ -39,7 +39,7 @@ class Type(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     cheese_id = db.Column('cheese_id', db.Integer,
-                          db.ForeignKey('cheese.id'), nullable=False)
+                          db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     type = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, type):
@@ -52,7 +52,7 @@ class Milk(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     cheese_id = db.Column('cheese_id', db.Integer,
-                          db.ForeignKey('cheese.id'), nullable=False)
+                          db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     milk = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, milk):
@@ -65,7 +65,7 @@ class Aroma(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     cheese_id = db.Column('cheese_id', db.Integer,
-                          db.ForeignKey('cheese.id'), nullable=False)
+                          db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     aroma = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, aroma):
@@ -80,7 +80,7 @@ class Country(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     cheese_id = db.Column('cheese_id', db.Integer,
-                          db.ForeignKey('cheese.id'), nullable=False)
+                          db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     def __init__(self, cheese_id, country):
         self.cheese_id = cheese_id
         self.country = country

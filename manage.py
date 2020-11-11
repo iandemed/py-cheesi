@@ -7,6 +7,8 @@ from app import create_app, db
 app = create_app()
 app.config.from_object(os.getenv('APP_SETTINGS'))
 
+db.init_app(app)
+
 migrate = Migrate(app, db)
 manager = Manager(app)
 

@@ -9,8 +9,6 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = os.getenv("SECRET_KEY")
-    
-
 
 class ProductionConfig(Config):
     DEBUG = False
