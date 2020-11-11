@@ -17,7 +17,8 @@ class Cheese(db.Model):
     aromas = db.relationship('Aroma')
     countries = db.relationship('Country')
 
-    def __init__(self, rind, colour, vegetarian):
+    def __init__(self, name, rind, colour, vegetarian):
+        self.name = name
         self.rind = rind
         self.colour = colour
         self.vegetarian = vegetarian

@@ -7,8 +7,6 @@ from db.models import db, Cheese, Texture, Type, Milk, Aroma, Country
 
 # App instances within modules are prone to circular error issues, per
 # Flask-SQLAlchemy doucmentation, I implment application contexts
-
-
 def create_app():
     app = Flask(__name__)
     app = Flask(__name__)
