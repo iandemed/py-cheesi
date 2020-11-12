@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from db.models import db, Cheese, Texture, Type, Milk, Aroma, Country
+from helper_functions.cheese_dict_helpers import create_cheese_model_dict
+
 
 # App instances within modules are prone to circular error issues, per
 # Flask-SQLAlchemy doucmentation, I implment application contexts
@@ -30,22 +32,25 @@ def cheeses(id=None):
     if request.method == 'GET':
         if id:
             cheese = Cheese.query.filter_by(id=id).first()
-            print()
             return jsonify(cheese.asdict())
         else:
             cheese_list = []
             for cheese in Cheese.query.all():
                 cheese_list.append(cheese.asdict())
-            print(cheese_list)
             return jsonify(cheese_list)
 
-
-'''
     if request.method == 'POST':
-        new_cheese = dict_to_model(Cheese, request.get_json())
-        new_cheese.save()
+        new_cheese = Cheese(**request.get_json())
+        db.session.add(new_cheese)
+        db.session.commit()
         return jsonify({"success": True})
-'''
+
+    if request.method == 'DELETE':
+        cheese = Cheese.query.filter_by(id=id).first()
+        db.session.delete(cheese)
+        db.session.commit()
+        return jsonify(cheese.asdict())
+
 
 if __name__ == '__main__':
     app.run()
