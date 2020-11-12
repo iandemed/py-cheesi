@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort
 from flask_sqlalchemy import SQLAlchemy
 from db.models import db, Cheese, Texture, Type, Milk, Aroma, Country
 from helper_functions.cheese_dict_helpers import create_cheese_model_dict
@@ -40,16 +40,29 @@ def cheeses(id=None):
             return jsonify(cheese_list)
 
     if request.method == 'POST':
-        new_cheese = Cheese(**request.get_json())
-        db.session.add(new_cheese)
-        db.session.commit()
-        return jsonify({"success": True})
+        try:
+            new_cheese = Cheese(**request.get_json())
+            db.session.add(new_cheese)
+            db.session.commit()
+            return jsonify({"success": True})
+        except:
+            abort(400)
 
     if request.method == 'DELETE':
         cheese = Cheese.query.filter_by(id=id).first()
         db.session.delete(cheese)
         db.session.commit()
         return jsonify(cheese.asdict())
+
+    if request.method == 'PUT':
+        try:
+            cheese = Cheese.query.filter_by(id=id).update(request.get_json())
+            db.session.commit()
+        except:
+            abort(400)
+
+        return jsonify({"success": True})
+
 
 
 if __name__ == '__main__':

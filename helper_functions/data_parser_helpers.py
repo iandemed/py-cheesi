@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 # use unpasteurized it would be too specifc. Only the type of milk should mention
 # pazteurization
 
-
 def is_pasteurized(str_item):
     if (str_item.find("pasteurized") != -1):
         return True
@@ -25,7 +24,6 @@ def is_unpasteurized(str_item):
 # we need to parse through and extract 2. from anchor tags and make sure 1. is included in the
 # returned data
 
-
 def prepare_milk_data(cheese_item, cheese_string):
 
     milk_list = []
@@ -42,7 +40,6 @@ def prepare_milk_data(cheese_item, cheese_string):
     return milk_list
 
 # General purpose function to parse a variety of columns
-
 
 def prepare_data(cheese_string):
 
