@@ -7,6 +7,23 @@ from db.models import db, Cheese, Texture, Type, Milk, Aroma, Country
 from helper_functions.cheese_dict_helpers import create_cheese_model_dict
 
 
+class InvalidUsage(Exception):
+    status_code = 400
+
+    def __init__(self, message, status_code=None, payload=None):
+        Exception.__init__(self)
+        self.messsage = message
+        if status_code is not None:
+            self.status_code = status_code
+        self.payload = payload
+    
+    def to_dict(self):
+        iu_dict = dict(self.payload or ())
+        iu_dict['status'] = self.status_code
+        iu_dict['message'] = self.messsage
+
+        return iu_dict
+
 # App instances within modules are prone to circular error issues, per
 # Flask-SQLAlchemy doucmentation, I implment application contexts
 def create_app():
@@ -21,6 +38,12 @@ app = create_app()
 db.init_app(app)
 
 
+@app.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
 @app.route('/')
 def hello():
     return "Hello World!"
@@ -31,8 +54,11 @@ def hello():
 def cheeses(id=None):
     if request.method == 'GET':
         if id:
-            cheese = Cheese.query.filter_by(id=id).first()
-            return jsonify(cheese.asdict())
+            try:
+                cheese = Cheese.query.filter_by(id=id).first()
+                return jsonify(cheese.asdict())
+            except:
+                raise InvalidUsage('Please enter a valid Cheese ID number', status_code=404)
         else:
             cheese_list = []
             for cheese in Cheese.query.all():
@@ -45,22 +71,32 @@ def cheeses(id=None):
             db.session.add(new_cheese)
             db.session.commit()
             return jsonify({"success": True})
-        except:
-            abort(400)
+        except TypeError as err:
+            if "unexpected keyword" in str(err):
+                raise InvalidUsage('Please make sure you are only using valid column names: (name, rind, colour, vegetarian)', 400)
+            else:
+                raise InvalidUsage('Please make sure you are using valid types for all fields', 400)
 
     if request.method == 'DELETE':
-        cheese = Cheese.query.filter_by(id=id).first()
-        db.session.delete(cheese)
-        db.session.commit()
-        return jsonify(cheese.asdict())
+        try:
+            cheese = Cheese.query.filter_by(id=id).first()
+            db.session.delete(cheese)
+            db.session.commit()
+            return jsonify(cheese.asdict())
+        except:
+            raise InvalidUsage('Please enter a valid Cheese ID number', status_code=404)
 
     if request.method == 'PUT':
         try:
             cheese = Cheese.query.filter_by(id=id).update(request.get_json())
             db.session.commit()
+        except TypeError as err:
+            if "unexpected keyword" in str(err):
+                raise InvalidUsage('Please make sure you are only using valid column names: (name, rind, colour, vegetarian)', 400)
+            else:
+                raise InvalidUsage('Please make sure you are using valid types for all fields', 400)
         except:
-            abort(400)
-
+            raise InvalidUsage('Please enter a valid Cheese ID number', status_code=404)
         return jsonify({"success": True})
 
 
