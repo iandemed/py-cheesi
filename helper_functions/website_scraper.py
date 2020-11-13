@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 # Get the HTML for the corresponding letter
+
 def scrape_alphabet_page(letter = None):
 
 
@@ -19,6 +20,7 @@ def scrape_alphabet_page(letter = None):
     return soup
 
 # Get the HTML from each individuals webpage
+
 def get_cheese_page(cheese):
     url = f'https://www.cheese.com{cheese}'
     page = requests.get(url)
@@ -30,6 +32,7 @@ def get_cheese_page(cheese):
 
 # Return a list of letters that a the name of a particular cheese included on 
 # cheese.com would include
+
 def get_letters(soup):
     alphabet_box = soup.find(id="alphabetical")
 
@@ -42,6 +45,7 @@ def get_letters(soup):
     return letters
 
 # Return a list of all of the links for each type of cheese
+
 def find_cheese_links(soup):
     # Find all of the "cheese items" on the page, which are cards that contain
     # links to a particular type of cheese
@@ -56,6 +60,7 @@ def find_cheese_links(soup):
     return cheese_links
 
 # Functions to parse data on the cheese specific webpage
+
 def find_cheese_data(soup):
     cheese_soup = soup.find("ul", class_="summary-points")
     return cheese_soup
