@@ -49,6 +49,7 @@ def handle_invalid_usage(error):
 def hello():
     return "Hello World!"
 
+# ---- Cheese Routes ----
 
 @app.route('/cheese', methods=['GET', 'POST'])
 @app.route('/cheese/<id>', methods=['GET', 'PUT', 'DELETE'])
@@ -100,6 +101,8 @@ def cheeses(id=None):
             raise InvalidUsage('Please enter a valid Cheese ID number', status_code=404)
         return jsonify({"success": True})
 
+# ---- Texture Routes ----
+
 @app.route('/texture', methods=['GET', 'POST'])
 @app.route('/texture/<id>', methods=['GET', 'PUT', 'DELETE'])
 def textures(id=None):
@@ -147,6 +150,58 @@ def textures(id=None):
             raise InvalidUsage('ProgrammingError: Please make sure you are using valid coulmn names and a non-empty list for your request', 400)
         except:
             raise InvalidUsage('Please enter a valid Texture ID number', status_code=404)
+
+        return jsonify({"success": True})
+
+# ---- Aroma Routes ----
+
+@app.route('/aroma', methods=['GET', 'POST'])
+@app.route('/aroma/<id>', methods=['GET', 'PUT', 'DELETE'])
+def aromas(id=None):
+    if request.method == 'GET':
+        if id:
+            try:
+                aroma = Aroma.query.filter_by(id=id).first()
+                return jsonify(aroma.asdict())
+            except:
+                raise InvalidUsage('Please enter a valid Aroma ID number', status_code=404)
+        else:
+            aroma_list = []
+            for aroma in Aroma.query.all():
+                aroma_list.append(aroma.asdict())
+            return jsonify(aroma_list)
+
+    if request.method == 'POST':
+        try:
+            new_aroma = Aroma(**request.get_json())
+            db.session.add(new_aroma)
+            db.session.commit()
+            return jsonify({"success": True})
+        except TypeError as err:
+            if "unexpected keyword" in str(err):
+                raise InvalidUsage('Please make sure you are only using valid column names: (cheese_id, aroma)', 400)
+            else:
+                raise InvalidUsage('Please make sure you are using valid types for all fields', 400)
+        except:
+            raise InvalidUsage('Please make sure you are using a valid JSON object', 400)
+
+    if request.method == 'DELETE':
+        try:
+            aroma = Aroma.query.filter_by(id=id).first()
+            db.session.delete(aroma)
+            db.session.commit()
+            return jsonify(aroma.asdict())
+        except:
+            raise InvalidUsage('Please enter a valid Aroma ID number', status_code=404)
+
+    if request.method == 'PUT':
+        try:
+            aroma = Aroma.query.filter_by(id=id).update(request.get_json())
+            db.session.commit()
+        except ProgrammingError as err:
+            raise InvalidUsage('ProgrammingError: Please make sure you are using valid coulmn names and a non-empty list for your request', 400)
+        except:
+            raise InvalidUsage('Please enter a valid Aroma ID number', status_code=404)
 
         return jsonify({"success": True})
 

@@ -12,9 +12,6 @@ from models import db, Cheese, Texture
 from flask import jsonify, request
 
 
-
-
-
 app = create_app()
 app.app_context().push()
 
