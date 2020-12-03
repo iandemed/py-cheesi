@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from db.models import db, Cheese, Texture, Type, Milk, Aroma, Country
 from helper_functions.cheese_dict_helpers import create_cheese_model_dict
 
+from sqlalchemy.exc import ProgrammingError
 
 class InvalidUsage(Exception):
     status_code = 400
@@ -99,27 +100,55 @@ def cheeses(id=None):
             raise InvalidUsage('Please enter a valid Cheese ID number', status_code=404)
         return jsonify({"success": True})
 
-
-
-if __name__ == '__main__':
-    app.run()
-
-'''
 @app.route('/texture', methods=['GET', 'POST'])
 @app.route('/texture/<id>', methods=['GET', 'PUT', 'DELETE'])
 def textures(id=None):
-    print(request)
     if request.method == 'GET':
         if id:
-            return jsonify(model_to_dict(Texture.get(Texture.id == id)))
+            try:
+                texture = Texture.query.filter_by(id=id).first()
+                return jsonify(texture.asdict())
+            except:
+                raise InvalidUsage('Please enter a valid Texture ID number', status_code=404)
         else:
             texture_list = []
-            for texture in Texture.select():
-                texture_list.append(model_to_dict(texture))
+            for texture in Texture.query.all():
+                texture_list.append(texture.asdict())
             return jsonify(texture_list)
 
     if request.method == 'POST':
-        new_texture = dict_to_model(Texture, request.get_json())
-        new_texture.save()
+        try:
+            new_texture = Texture(**request.get_json())
+            db.session.add(new_texture)
+            db.session.commit()
+            return jsonify({"success": True})
+        except TypeError as err:
+            if "unexpected keyword" in str(err):
+                raise InvalidUsage('Please make sure you are only using valid column names: (cheese_id, texture)', 400)
+            else:
+                raise InvalidUsage('Please make sure you are using valid types for all fields', 400)
+        except:
+            raise InvalidUsage('Please make sure you are using a valid JSON object', 400)
+
+    if request.method == 'DELETE':
+        try:
+            texture = Texture.query.filter_by(id=id).first()
+            db.session.delete(texture)
+            db.session.commit()
+            return jsonify(texture.asdict())
+        except:
+            raise InvalidUsage('Please enter a valid Texture ID number', status_code=404)
+
+    if request.method == 'PUT':
+        try:
+            texture = Texture.query.filter_by(id=id).update(request.get_json())
+            db.session.commit()
+        except ProgrammingError as err:
+            raise InvalidUsage('ProgrammingError: Please make sure you are using valid coulmn names and a non-empty list for your request', 400)
+        except:
+            raise InvalidUsage('Please enter a valid Texture ID number', status_code=404)
+
         return jsonify({"success": True})
-'''
+
+if __name__ == '__main__':
+    app.run()
