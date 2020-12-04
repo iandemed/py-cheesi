@@ -6,8 +6,9 @@ from flask_sqlalchemy import SQLAlchemy
 from db.models import db, Cheese, Texture, Type, Milk, Aroma, Country
 from helper_functions.cheese_dict_helpers import create_cheese_model_dict
 
-from sqlalchemy.exc import ProgrammingError
+from sqlalchemy.exc import ProgrammingError, DatabaseError
 
+# Custom Exception class used to raise 400 errors for invalid usage of the API
 class InvalidUsage(Exception):
     status_code = 400
 
@@ -121,6 +122,11 @@ def textures(id=None):
 
     if request.method == 'POST':
         try:
+            texture_json = request.get_json()
+
+            if isinstance(texture_json["texture"], list):
+                raise TypeError
+
             new_texture = Texture(**request.get_json())
             db.session.add(new_texture)
             db.session.commit()
@@ -173,7 +179,11 @@ def aromas(id=None):
 
     if request.method == 'POST':
         try:
-            new_aroma = Aroma(**request.get_json())
+            aroma_json = request.get_json()
+
+            if isinstance(aroma_json["aroma"], list):
+                raise TypeError
+
             db.session.add(new_aroma)
             db.session.commit()
             return jsonify({"success": True})
