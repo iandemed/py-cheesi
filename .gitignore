@@ -133,3 +133,6 @@ dmypy.json
 
 # Dotenv file
 .env
+
+# Mac specific files
+.DS_Store

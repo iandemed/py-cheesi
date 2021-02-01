@@ -17,7 +17,7 @@ class ProductionConfig(Config):
 class StagingConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
-
+    SQLALCHEMY_DATABASE_URI = DATABASE_URL # Enviornment variable saved on Heroku
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
