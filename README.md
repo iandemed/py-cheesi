@@ -1,16 +1,10 @@
 # py-cheesi
 
-## Overview
-
-Py-cheesi is a RESTful API created using Flask and BeautifulSoup4 to scrape data on the various cheeses listed on [cheese.com](https://cheese.com/)
-
-There are a lot of open-source APIs on wine, but I noticed that there were no APIs that covered cheese. I wanted to focus my efforts on a using a unique set of data to practice creating python based APIs and setting up PostgreSQL databases.
-
 ## Table of Contents
 
 - [py-cheesi](#py-cheesi)
-  - [Overview](#overview)
   - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
   - [Techincal Requirements](#techincal-requirements)
     - [Technologies Used](#technologies-used)
     - [Dependencies](#dependencies)
@@ -24,21 +18,28 @@ There are a lot of open-source APIs on wine, but I noticed that there were no AP
     - [Aroma](#aroma)
       - [GET by ID](#get-by-id-1)
   - [Additional Notes](#additional-notes)
+## Overview
+
+Py-cheesi is a RESTful API created using Flask and BeautifulSoup4 to scrape data on the various cheeses listed on [cheese.com](https://cheese.com/)
+
+There are a lot of open-source APIs on wine, but I noticed that there were no APIs that covered cheese. I wanted to focus my efforts on a using a unique set of data to practice creating python based APIs and setting up PostgreSQL databases.
 
 ## Techincal Requirements
 
 ### Technologies Used
 
 1. Python - the language that the project and API are written in
-2. PostgreSQL - the local database that houses the data scraped for the database
+2. PostgreSQL - the database that houses the data scraped from [cheese.com](https://cheese.com/)
 
 ### Dependencies
 
 1. psycopg2-binary - to connect with the PostgreSQL database
 2. requests - to get the raw HTML
-3. BeautifulSoup4 - to parse through the HTML and scrape the data
+3. BeautifulSoup4 - to parse through the raw HTML and scrape the data
 4. Flask - to set-up the routes to connect to my API
 5. Alembic - used to manage migrations of the SQL database
+6. SQLAlchemy - used to interact directly with the SQL database
+7. dotenv - to manage the enviornmental variables
 
 ### Authentication
 
