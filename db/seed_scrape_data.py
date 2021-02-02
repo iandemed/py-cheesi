@@ -13,6 +13,8 @@ from flask import jsonify, request
 
 
 app = create_app()
+
+
 app.app_context().push()
 
 db.init_app(app)
@@ -41,7 +43,6 @@ for cheese in cheese_links:
     cheese_dict = create_cheese_dict(soup)
     cheese_model_dict = create_cheese_model_dict(cheese_dict)
     
-    print(cheese_model_dict)
     new_cheese = Cheese(**cheese_model_dict)
     db.session.add(new_cheese)
     db.session.commit()
