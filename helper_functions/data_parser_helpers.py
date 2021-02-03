@@ -83,8 +83,7 @@ def table_vars_to_array(var_type, var_data):
 
 
 def handle_missing_variables(cheese_dict):
-    cheese_vars = ['name', 'rind', 'colour', 'vegetarian', 'milk',
-                   'flavour', 'texture', 'type', 'aroma', 'countries']
+    cheese_vars = ['name', 'rind', 'colour', 'vegetarian', 'milk', 'flavour', 'texture', 'type', 'aroma', 'countries']
 
     for cheese_var in cheese_vars:
         if cheese_dict.get(cheese_var) is None:

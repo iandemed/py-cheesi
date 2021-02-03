@@ -31,8 +31,7 @@ class Texture(db.Model):
     __tablename__ = 'texture'
 
     id = db.Column(db.Integer, primary_key=True)
-    cheese_id = db.Column('cheese_id', db.Integer,
-                          db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    cheese_id = db.Column('cheese_id', db.Integer, db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     texture = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, texture):
@@ -47,8 +46,7 @@ class Type(db.Model):
     __tablename__ = 'type'
 
     id = db.Column(db.Integer, primary_key=True)
-    cheese_id = db.Column('cheese_id', db.Integer,
-                          db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    cheese_id = db.Column('cheese_id', db.Integer, db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     type = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, type):
@@ -63,8 +61,7 @@ class Milk(db.Model):
     __tablename__ = 'milk'
 
     id = db.Column(db.Integer, primary_key=True)
-    cheese_id = db.Column('cheese_id', db.Integer,
-                          db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    cheese_id = db.Column('cheese_id', db.Integer, db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     milk = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, milk):
@@ -79,8 +76,7 @@ class Aroma(db.Model):
     __tablename__ = 'aroma'
 
     id = db.Column(db.Integer, primary_key=True)
-    cheese_id = db.Column('cheese_id', db.Integer,
-                          db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    cheese_id = db.Column('cheese_id', db.Integer, db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     aroma = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, aroma):
@@ -97,8 +93,7 @@ class Country(db.Model):
     country = db.Column(db.String(80), nullable=False)
 
     id = db.Column(db.Integer, primary_key=True)
-    cheese_id = db.Column('cheese_id', db.Integer,
-                          db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    cheese_id = db.Column('cheese_id', db.Integer, db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
 
     def __init__(self, cheese_id, country):
         self.cheese_id = cheese_id

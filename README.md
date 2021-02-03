@@ -1,9 +1,6 @@
 # py-cheesi
 
-## Table of Contents
-
 - [py-cheesi](#py-cheesi)
-  - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
   - [Techincal Requirements](#techincal-requirements)
     - [Technologies Used](#technologies-used)
@@ -17,7 +14,7 @@
       - [GET by ID](#get-by-id)
     - [Aroma](#aroma)
       - [GET by ID](#get-by-id-1)
-  - [Additional Notes](#additional-notes)
+  - [Projects](#projects)
 ## Overview
 
 Py-cheesi is a RESTful API created using Flask and BeautifulSoup4 to scrape data on the various cheeses listed on [cheese.com](https://cheese.com/)
@@ -144,6 +141,6 @@ Charactersitics on the type of milk used to create a particular type of cheese. 
     }
 ```
 
-## Additional Notes
+## Projects
 
-- All edits are first tested on the staging server then pushed to the final production version.
+- [Cheese Project (Name Pending)](https://github.com/maurcord/CheeseProject) - created in collaboration with Maurico Cordero who created the front-end
