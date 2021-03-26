@@ -40,6 +40,7 @@ def create_app():
 
 app = create_app()
 db.init_app(app)
+CORS(app)
 
 
 @app.errorhandler(InvalidUsage)
