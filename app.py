@@ -56,7 +56,6 @@ def hello():
 # ---- Cheese Routes ----
 @app.route('/cheese', methods=['GET', 'POST'])
 @app.route('/cheese/<id>', methods=['GET', 'PUT', 'DELETE'])
-@cross_origin()
 def cheeses(id=None):
     if request.method == 'GET':
         if id:
