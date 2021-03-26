@@ -51,7 +51,6 @@ def hello():
     return "Hello World!"
 
 # ---- Cheese Routes ----
-
 @app.route('/cheese', methods=['GET', 'POST'])
 @app.route('/cheese/<id>', methods=['GET', 'PUT', 'DELETE'])
 def cheeses(id=None):

@@ -24,7 +24,7 @@ class Cheese(db.Model):
         self.vegetarian = vegetarian
 
     def asdict(self):
-        return {'id': self.id, 'rind': self.rind, 'colour': self.colour, 'vegetarian': self.vegetarian}
+        return {'id': self.id, 'name': self.name, 'rind': self.rind, 'colour': self.colour, 'vegetarian': self.vegetarian}
 
 
 class Texture(db.Model):
