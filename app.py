@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 
 from flask import Flask, jsonify, request, abort
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import cross_origin
+
 from db.models import db, Cheese, Texture, Type, Milk, Aroma, Country
 from helper_functions.cheese_dict_helpers import create_cheese_model_dict
 
@@ -53,6 +55,7 @@ def hello():
 # ---- Cheese Routes ----
 @app.route('/cheese', methods=['GET', 'POST'])
 @app.route('/cheese/<id>', methods=['GET', 'PUT', 'DELETE'])
+@cross_origin()
 def cheeses(id=None):
     if request.method == 'GET':
         if id:
