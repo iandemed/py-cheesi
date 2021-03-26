@@ -31,14 +31,13 @@ class InvalidUsage(Exception):
 # Flask-SQLAlchemy doucmentation, I implment application contexts
 def create_app():
     app = Flask(__name__)
-    app = Flask(__name__)
+    CORS(app)
     app.config.from_object(os.getenv('APP_SETTINGS'))
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     return app
 
 
 app = create_app()
-CORS(app)
 db.init_app(app)
 
 
