@@ -10,9 +10,6 @@ from sqlalchemy.exc import ProgrammingError, DatabaseError
 
 # Custom Exception class used to raise 400 errors for invalid usage of the API
 class InvalidUsage(Exception):
-'''
-    @param Exception
-'''
     status_code = 400
 
     def __init__(self, message, status_code=None, payload=None):
