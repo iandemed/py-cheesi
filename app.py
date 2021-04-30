@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 
 from flask import Flask, jsonify, request, abort
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from db.models import db, Cheese, Texture, Type, Milk, Aroma, Country
 from helper_functions.cheese_dict_helpers import create_cheese_model_dict
 
@@ -30,7 +31,6 @@ class InvalidUsage(Exception):
 # Flask-SQLAlchemy doucmentation, I implment application contexts
 def create_app():
     app = Flask(__name__)
-    app = Flask(__name__)
     app.config.from_object(os.getenv('APP_SETTINGS'))
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     return app
@@ -51,7 +51,6 @@ def hello():
     return "Hello World!"
 
 # ---- Cheese Routes ----
-
 @app.route('/cheese', methods=['GET', 'POST'])
 @app.route('/cheese/<id>', methods=['GET', 'PUT', 'DELETE'])
 def cheeses(id=None):

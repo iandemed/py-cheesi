@@ -19,6 +19,7 @@ class StagingConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL") # Enviornment variable saved on Heroku
 
+
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
