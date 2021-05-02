@@ -5,7 +5,7 @@ from flask import Flask, jsonify, request, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from db.models import db, Cheese, Texture, Type, Milk, Aroma, Country
-from helper_functions.cheese_dict_helpers import create_cheese_model_dict
+from helper_functions.model_dict_helpers import create_cheese_model_dict
 
 from sqlalchemy.exc import ProgrammingError, DatabaseError
 

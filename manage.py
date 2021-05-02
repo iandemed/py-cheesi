@@ -3,7 +3,6 @@ from flask_script import Manager, Command
 from flask_migrate import Migrate, MigrateCommand
 
 from app import create_app, db
-from db.scrape_seed_data import scrape_seed_data
 
 
 app = create_app()
@@ -21,7 +20,6 @@ class ScrapeSeedData(Command):
         scrape_seed_data()
 
 manager.add_command('db', MigrateCommand)
-manager.add_command('seeddata', ScrapeSeedData())
 
 
 if __name__ == '__main__':
