@@ -33,38 +33,35 @@ for letter in letters:
         cheeses = find_cheese_links(letter_soup)
         cheese_links.extend(cheeses)
 
-# Intialize the ID variable
-cheese_id = 1
 
 for cheese in cheese_links:
     soup = get_cheese_page(cheese)
-    
     cheese_dict = create_cheese_dict(soup)
-    print(cheese_dict)
 
     #---- Add new Cheese to the database ----
     cheese_model_dict = create_cheese_model_dict(cheese_dict)
     new_cheese = Cheese(**cheese_model_dict)
     db.session.add(new_cheese)
+    
+    # Get the generated primary key for the new cheese model
+    db.session.flush()
+    cheese_id = new_cheese.id
+    
+    print(f'-- Added: {new_cheese.name} --')
     db.session.commit()
-    print("Cheese model added")
     
-    # #---- Add new Milk to the database ----
-    # milk_model_dicts = create_milk_model_dicts(cheese_dict, cheese_id)
-    # for milk_model_dict in milk_model_dicts:
-    #     new_milk = Milk(**milk_model_dict)
-    #     db.session.add(new_milk)
-    #     db.session.commit()
-    
+    #---- Add new Milk to the database ----
+    milk_model_dicts = create_milk_model_dicts(cheese_dict, cheese_id)
+    for milk_model_dict in milk_model_dicts:
+        new_milk = Milk(**milk_model_dict)
+        db.session.add(new_milk)
+        db.session.commit()
     
     
-    # #---- Add new Cheese to the database ----
-    # texture_model_dicts = create_texture_model_dicts(cheese_dict, cheese_id)(cheese_dict, cheese_id)
-    # for texture_model_dict in texture_model_dicts:
-    #     new_texture = Texture(**texture_model_dict)
-    #     db.session.add(new_texture)
-    #     db.session.commit()
-
-
-
-    cheese_id += 1
+    
+    #---- Add new Cheese to the database ----
+    texture_model_dicts = create_texture_model_dicts(cheese_dict, cheese_id)
+    for texture_model_dict in texture_model_dicts:
+        new_texture = Texture(**texture_model_dict)
+        db.session.add(new_texture)
+        db.session.commit()
