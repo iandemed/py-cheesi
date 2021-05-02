@@ -1,10 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 
-# Get the HTML for the corresponding letter
-
 def scrape_alphabet_page(letter = None):
-
+    '''
+    Returns a soup object containing the HTML from the first 
+    alphabetical list page coresponding to a specific letter 
+    passed into the function
+    '''
 
     # The base URL page that we will scrape the specific cheese URLs
     url = 'https://www.cheese.com/alphabetical/'
@@ -19,9 +21,11 @@ def scrape_alphabet_page(letter = None):
 
     return soup
 
-# Get the HTML from each individuals webpage
-
 def get_cheese_page(cheese):
+    '''
+    Returns soup object containing HTML from a specific cheese's
+    webpage
+    '''
     url = f'https://www.cheese.com{cheese}'
     page = requests.get(url)
 
@@ -30,10 +34,10 @@ def get_cheese_page(cheese):
 
     return soup
 
-# Return a list of letters that a the name of a particular cheese included on 
-# cheese.com would include
-
 def get_letters(soup):
+    '''
+    Return a list of letters that contain a cheese from cheese.com
+    '''
     alphabet_box = soup.find(id="alphabetical")
 
     letter_items = alphabet_box.find_all('input')
@@ -44,9 +48,12 @@ def get_letters(soup):
 
     return letters
 
-# Return a list of all of the links for each type of cheese
 
 def find_cheese_links(soup):
+    '''
+    Return a list of cheese urls given a soup object that
+    contains a list of cheeses
+    '''
     # Find all of the "cheese items" on the page, which are cards that contain
     # links to a particular type of cheese
     cheese_items = soup.find_all('div', class_="cheese-item")
@@ -59,13 +66,22 @@ def find_cheese_links(soup):
 
     return cheese_links
 
-# Functions to parse data on the cheese specific webpage
+#---- Functions to parse data on specific cheese webpage ----
 
 def find_cheese_data(soup):
+    '''
+    Takes a soup object corresponding to the full cheese web-page 
+    and returns a soup object containing only the characteristics of
+    the cheese
+    '''
     cheese_soup = soup.find("ul", class_="summary-points")
     return cheese_soup
 
 
 def find_cheese_name(soup):
+    '''
+    Takes a soup object and returns a string corresponding to
+    the name of the cheese
+    '''
     cheese_header = soup.find('div', class_="unit")
     return cheese_header.h1.get_text().lower()
