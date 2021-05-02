@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-def scrape_alphabet_page(letter = None):
+def scrape_alphabet_page(letter = None, page_num = 1):
     '''
     Returns a soup object containing the HTML from the first 
     alphabetical list page coresponding to a specific letter 
@@ -11,7 +11,7 @@ def scrape_alphabet_page(letter = None):
     # The base URL page that we will scrape the specific cheese URLs
     url = 'https://www.cheese.com/alphabetical/'
     if isinstance(letter, str):
-        url = f'https://www.cheese.com/alphabetical/?i={letter}'
+        url = f'https://www.cheese.com/alphabetical/?per_page=20&i={letter}&page={page_num}'
     elif letter is not None:
         print("argument must be None or a letter string")
     page = requests.get(url)
@@ -48,6 +48,12 @@ def get_letters(soup):
 
     return letters
 
+def get_numbers(soup):
+    '''
+    Return the highest number page in order to loop over the entirety of the page
+    ''' 
+    page_list = soup.find(id="id_page")
+    return int(page_list.find_all('input')[-1]['value'])
 
 def find_cheese_links(soup):
     '''

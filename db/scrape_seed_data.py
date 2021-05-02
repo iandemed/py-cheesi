@@ -6,7 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 from helper_functions.cheese_dict_helpers import create_cheese_dict, create_cheese_model_dict
-from helper_functions.website_scraper import scrape_alphabet_page, get_letters, find_cheese_links, get_cheese_page
+from helper_functions.website_scraper import scrape_alphabet_page, get_letters, find_cheese_links, get_cheese_page, get_numbers
 from app import create_app
 from db.models import db, Cheese, Texture
 from flask import jsonify, request
@@ -28,9 +28,11 @@ def scrape_seed_data():
     # Creat a list containing every cheese in the cheese.com database
     cheese_links = []
     for letter in letters:
-        letter_soup = scrape_alphabet_page(letter)
-        cheeses = find_cheese_links(letter_soup)
-        cheese_links.extend(cheeses)
+        max_page = get_numbers(scrape_alphabet_page(letter))
+        for page_num in range(1, max_page):
+            letter_soup = scrape_alphabet_page(letter, page_num)
+            cheeses = find_cheese_links(letter_soup)
+            cheese_links.extend(cheeses)
 
     # Intialize the ID variable
     cheese_id = 1
