@@ -73,10 +73,7 @@ def create_milk_model_dicts(cheese_dict, cheese_id):
 
     milk_dicts = []
     for cheese_milk in milk:
-        if 'none' in cheese_milk:
-            break
-        else:
-            milk_dicts.append({"cheese_id": cheese_id, "milk": cheese_milk})
+        milk_dicts.append({"cheese_id": cheese_id, "milk": cheese_milk})
 
     return milk_dicts
 

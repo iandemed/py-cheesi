@@ -113,7 +113,7 @@ def table_vars_to_array(var_type, var_data):
     and add them to seperate table
     '''
 
-    tables_array = ['flavour', 'texture', 'type', 'aroma', 'countries']
+    tables_array = ['flavour', 'texture', 'type', 'aroma', 'countries', 'milk']
 
     if isinstance(var_data, str) and var_type in tables_array:
         return [var_data]
