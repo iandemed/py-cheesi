@@ -57,8 +57,6 @@ for cheese in cheese_links:
         db.session.add(new_milk)
         db.session.commit()
     
-    
-    
     #---- Add new Texture to the database ----
     texture_model_dicts = create_texture_model_dicts(cheese_dict, cheese_id)
     for texture_model_dict in texture_model_dicts:
@@ -66,7 +64,7 @@ for cheese in cheese_links:
         db.session.add(new_texture)
         db.session.commit()
 
-    #---- Add new Texture to the database ----
+    #---- Add new Aroma to the database ----
     aroma_model_dicts = create_aroma_model_dicts(cheese_dict, cheese_id)
     for aroma_model_dict in aroma_model_dicts:
         new_aroma = Aroma(**aroma_model_dict)
