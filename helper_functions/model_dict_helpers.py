@@ -35,8 +35,8 @@ def create_cheese_dict(soup):
 
         # As of 09/2020 the type of milk used to make the cheese was not entered
         # using the same format as the other relevant variables
-        if is_pasteurized(item_string) or "milk" in item_string:
-            cheese_dict["milk"] = prepare_milk_data(cheese_item, item_string)
+        if "Made from" in item_string:
+            cheese_dict["milk"] = prepare_milk_data(cheese_item)
         else:
             item_list = item_string.split(": ")
             var_type = item_list[0].lower() if item_list[0].find(
@@ -73,7 +73,10 @@ def create_milk_model_dicts(cheese_dict, cheese_id):
 
     milk_dicts = []
     for cheese_milk in milk:
-        milk_dicts.append({"cheese_id": cheese_id, "milk": cheese_milk})
+        if 'none' in cheese_milk:
+            break
+        else:
+            milk_dicts.append({"cheese_id": cheese_id, "milk": cheese_milk})
 
     return milk_dicts
 

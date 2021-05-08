@@ -33,7 +33,7 @@ def is_unpasteurized(str_item):
         return False
 
 
-def prepare_milk_data(cheese_item, item_string):
+def prepare_milk_data(cheese_item):
     '''
     The type of milk used to make a cheese is not entered in the same 
     format as the other relevant variables inlcluded on the webpage, 
@@ -51,14 +51,9 @@ def prepare_milk_data(cheese_item, item_string):
 
     milk_list = []
     milk_types = cheese_item.find_all('a')
-    pasteurization = ""
-    if is_unpasteurized(item_string):
-        pasteurization = "unpasteurized "
-    elif is_pasteurized(item_string):
-        pasteurization = "pasteurized "
 
     for milk_type in milk_types:
-        milk_list.append(pasteurization + milk_type.get_text())
+        milk_list.append(milk_type.get_text())
 
     return milk_list
 

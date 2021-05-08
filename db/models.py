@@ -47,7 +47,7 @@ class Type(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     cheese_id = db.Column('cheese_id', db.Integer, db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
-    type = db.Column(db.String(80), nullable=False)
+    type = db.Column(db.Boolean, nullable=True)
 
     def __init__(self, cheese_id, type):
         self.cheese_id = cheese_id
@@ -63,10 +63,12 @@ class Milk(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cheese_id = db.Column('cheese_id', db.Integer, db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     milk = db.Column(db.String(80), nullable=False)
+    #pasteurized = db.Column(db.String(80), nullable=False)
 
     def __init__(self, cheese_id, milk):
         self.cheese_id = cheese_id
         self.milk = milk
+        #self.pasteurized
 
     def asdict(self):
         return {'id': self.id, 'cheese_id': self.cheese_id, 'milk': self.milk}
