@@ -17,7 +17,8 @@ app.app_context().push()
 db.init_app(app)
 
 # Clear ALL of the data currently in the database
-Cheese.query.delete()
+if Cheese.query.all() is not None:
+    Cheese.query.delete()
 
 # Get a list of all of the alphabetic letters included in the cheese database
 alphabet_soup = scrape_alphabet_page()
