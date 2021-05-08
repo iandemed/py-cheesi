@@ -93,3 +93,20 @@ def create_texture_model_dicts(cheese_dict, cheese_id):
             {"cheese_id": cheese_id, "texture": cheese_texture})
 
     return texture_dicts
+
+def create_aroma_model_dicts(cheese_dict, cheese_id):
+    '''
+    Converts the cheese_dict dictionary into a dictionary that 
+    can be used to create the Aroma model specified in our Flask 
+    PostgreSQL database
+    '''
+    print(cheese_dict)
+
+    aromas = cheese_dict['aroma']
+
+    aroma_dicts = []
+    for cheese_aroma in aromas:
+        aroma_dicts.append(
+            {"cheese_id": cheese_id, "aroma": cheese_aroma})
+
+    return aroma_dicts

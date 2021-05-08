@@ -78,9 +78,10 @@ def prepare_data(item_string):
         elif cheese_data_list is None:
             cheese_data_list = handle_none(cheese_data_list)
 
-    if 'yes' in cheese_data_list:
+    print(cheese_data_list)
+    if cheese_data_list == 'yes':
         return True
-    elif 'no' in cheese_data_list:
+    elif cheese_data_list == 'no':
         return False
     else:
         return cheese_data_list

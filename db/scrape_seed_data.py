@@ -5,10 +5,10 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-from helper_functions.model_dict_helpers import create_cheese_dict, create_cheese_model_dict, create_milk_model_dicts, create_texture_model_dicts
+from helper_functions.model_dict_helpers import create_cheese_dict, create_cheese_model_dict, create_milk_model_dicts, create_texture_model_dicts, create_aroma_model_dicts
 from helper_functions.website_scraper import scrape_alphabet_page, get_letters, find_cheese_links, get_cheese_page, get_numbers
 from app import create_app
-from db.models import db, Cheese, Texture, Milk
+from db.models import db, Cheese, Texture, Milk, Aroma
 from flask import jsonify, request
 
 app = create_app()
@@ -59,9 +59,16 @@ for cheese in cheese_links:
     
     
     
-    #---- Add new Cheese to the database ----
+    #---- Add new Texture to the database ----
     texture_model_dicts = create_texture_model_dicts(cheese_dict, cheese_id)
     for texture_model_dict in texture_model_dicts:
         new_texture = Texture(**texture_model_dict)
         db.session.add(new_texture)
+        db.session.commit()
+
+    #---- Add new Texture to the database ----
+    aroma_model_dicts = create_aroma_model_dicts(cheese_dict, cheese_id)
+    for aroma_model_dict in aroma_model_dicts:
+        new_aroma = Aroma(**aroma_model_dict)
+        db.session.add(new_aroma)
         db.session.commit()
