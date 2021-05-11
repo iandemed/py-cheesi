@@ -40,7 +40,7 @@ def create_cheese_dict(soup):
         else:
             item_list = item_string.split(": ")
             var_type = item_list[0].lower() if item_list[0].find(
-                "Country") == -1 else "countries"
+                "Country") == -1 else "country"
 
             cheese_dict[var_type] = table_vars_to_array(
                 var_type, prepare_data(item_list[1]))
@@ -62,51 +62,19 @@ def create_cheese_model_dict(cheese_dict):
     return cheese_model_dict
 
 
-def create_milk_model_dicts(cheese_dict, cheese_id):
+def create_model_dicts(cheese_dict, cheese_id, cheese_var):
     '''
     Converts the cheese_dict dictionary into a dictionary that 
-    can be used to create the Milk model specified in our Flask 
+    can be used to create the model specified in our Flask 
     PostgreSQL database
     '''
+    cheese_model = cheese_dict[cheese_var]
 
-    milk = cheese_dict['milk']
+    var_dicts = []
+    for var in cheese_model:
+        var_dicts.append({
+            "cheese_id": cheese_id,
+            f'{cheese_var}': var
+        })
 
-    milk_dicts = []
-    for cheese_milk in milk:
-        milk_dicts.append({"cheese_id": cheese_id, "milk": cheese_milk})
-
-    return milk_dicts
-
-
-def create_texture_model_dicts(cheese_dict, cheese_id):
-    '''
-    Converts the cheese_dict dictionary into a dictionary that 
-    can be used to create the Texture model specified in our Flask 
-    PostgreSQL database
-    '''
-
-    textures = cheese_dict['texture']
-
-    texture_dicts = []
-    for cheese_texture in textures:
-        texture_dicts.append(
-            {"cheese_id": cheese_id, "texture": cheese_texture})
-
-    return texture_dicts
-
-def create_aroma_model_dicts(cheese_dict, cheese_id):
-    '''
-    Converts the cheese_dict dictionary into a dictionary that 
-    can be used to create the Aroma model specified in our Flask 
-    PostgreSQL database
-    '''
-    print(cheese_dict)
-
-    aromas = cheese_dict['aroma']
-
-    aroma_dicts = []
-    for cheese_aroma in aromas:
-        aroma_dicts.append(
-            {"cheese_id": cheese_id, "aroma": cheese_aroma})
-
-    return aroma_dicts
+    return var_dicts

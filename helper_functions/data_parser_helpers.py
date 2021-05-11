@@ -78,7 +78,6 @@ def prepare_data(item_string):
         elif cheese_data_list is None:
             cheese_data_list = handle_none(cheese_data_list)
 
-    print(cheese_data_list)
     if cheese_data_list == 'yes':
         return True
     elif cheese_data_list == 'no':
@@ -97,7 +96,7 @@ def handle_none(var_type):
 def table_vars_to_array(var_type, var_data):
     '''
     Returns a list or str of data depending on whether it belongs to a select 
-    few categories (i.e. flavour, texture, type, aroma, countries)
+    few categories (i.e. flavour, texture, type, aroma, country)
 
         Parameters:
             var_type (str): A string indicating which variable the respective 
@@ -114,7 +113,7 @@ def table_vars_to_array(var_type, var_data):
     and add them to seperate table
     '''
 
-    tables_array = ['flavour', 'texture', 'type', 'aroma', 'countries', 'milk']
+    tables_array = ['flavour', 'texture', 'type', 'aroma', 'country', 'milk']
 
     if isinstance(var_data, str) and var_type in tables_array:
         return [var_data]
@@ -135,7 +134,7 @@ def handle_missing_variables(cheese_dict):
             columns to post to PostgreSQL
     '''
 
-    cheese_vars = ['name', 'rind', 'colour', 'vegetarian', 'milk', 'flavour', 'texture', 'type', 'aroma', 'countries']
+    cheese_vars = ['name', 'rind', 'colour', 'vegetarian', 'milk', 'flavour', 'texture', 'type', 'aroma', 'country']
 
     for cheese_var in cheese_vars:
         if cheese_dict.get(cheese_var) is None:

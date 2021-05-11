@@ -47,7 +47,7 @@ class Type(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     cheese_id = db.Column('cheese_id', db.Integer, db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
-    type = db.Column(db.Boolean, nullable=True)
+    type = db.Column(db.String, nullable=True)
 
     def __init__(self, cheese_id, type):
         self.cheese_id = cheese_id
@@ -88,15 +88,29 @@ class Aroma(db.Model):
     def asdict(self):
         return {'id': self.id, 'cheese_id': self.cheese_id, 'aroma': self.aroma}
 
+class Flavour(db.Model):
+    __tablename__ = 'flavour'
+
+    id = db.Column(db.Integer, primary_key=True)
+    cheese_id = db.Column('cheese_id', db.Integer, db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    flavour = db.Column(db.String(80), nullable=False)
+
+    def __init__(self, cheese_id, flavour):
+        self.cheese_id = cheese_id
+        self.flavour = flavour
+
+    def asdict(self):
+        return {'id': self.id, 'cheese_id': self.cheese_id, 'flavour': self.flavour}
+
 
 class Country(db.Model):
     __tablename__ = 'country'
 
-    country = db.Column(db.String(80), nullable=False)
-
+    
     id = db.Column(db.Integer, primary_key=True)
     cheese_id = db.Column('cheese_id', db.Integer, db.ForeignKey('cheese.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
-
+    country = db.Column(db.String(80), nullable=False)
+    
     def __init__(self, cheese_id, country):
         self.cheese_id = cheese_id
         self.country = country
